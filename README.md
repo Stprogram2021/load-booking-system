@@ -1,102 +1,79 @@
 Load Booking System
 
-A backend REST API application built using Spring Boot and PostgreSQL. This system allows shippers to post loads and transporters to book them. It includes features such as load status management, booking workflows, data validation, and logging.
-
-
-Features
-
-- Shippers can create and manage loads with complete facility details.
-- Transporters can book loads with proposed rates and comments.
-- Booking and Load status tracking using enums.
-- Uses DTOs for clean API interaction.
-- Integrated validation using Jakarta annotations.
-- Exception handling through global handler.
-- Logging via SLF4J for service-level insights.
-
+This is a backend system built using Spring Boot and PostgreSQL to manage Load and Booking operations for a transportation platform. It allows shippers to post loads and transporters to book those loads.
 
 Tech Stack
 
-- Java 17
-- Spring Boot
-- PostgreSQL
-- Maven
-- Jakarta Persistence
+- Java 17  
+- Spring Boot  
+- Spring Data JPA  
+- PostgreSQL  
+- Maven  
 - Postman (for API testing)
 
+Features
 
-Project Structure
+- Create, read, update, and delete load postings  
+- Booking loads by transporters  
+- Load status updates (Posted, Booked, Cancelled)  
+- Booking status management (Pending, Accepted, Rejected)  
+- Global exception handling  
+- Logging for service operations  
+- DTO-based request/response structure  
+- Validation of user input using annotations  
 
-src/
- └── main/
-     └── java/
-         └── com.example.loadbooking/
-             ├── controller/
-             ├── dto/
-             ├── exception/
-             ├── model/
-             ├── repo/
-             ├── service/
-             ├── utility/
+Modules
 
----
+1. Load Module  
+   - POST /loads  
+   - GET /loads/{id}  
+   - PUT /loads/{id}  
+   - DELETE /loads/{id}  
+   - GET /loads?shipperId=&truckType=
 
-Getting Started
+2. Booking Module  
+   - POST /bookings  
+   - GET /bookings/{id}  
+   - PUT /bookings/{id}  
+   - DELETE /bookings/{id}  
+   - GET /bookings?transporterId=
 
-Prerequisites:
-- Java 17 or higher
-- PostgreSQL
-- Maven
-- Postman
+Setup Instructions
 
-Steps to Run:
+1. Clone the repository  
+   `git clone https://github.com/Stprogram2021/load-booking-system`
 
-1. Clone the Repository
-   git clone https://github.com/Stprogram2021/load-booking-system.git
-   cd load-booking-system
+2. Open in your IDE (e.g., Eclipse or IntelliJ)
 
-2. Configure PostgreSQL Database
-   Create a database named `load_booking_db`.
+3. Set up PostgreSQL database:  
+   - DB Name: `load_booking_db`  
+   - Username: `postgres`  
+   - Password: `Danger`
 
-3. Update application.properties
-   spring.datasource.url=jdbc:postgresql://localhost:5432/load_booking_db  
-   spring.datasource.username=postgres  
-   spring.datasource.password=Danger  
-   spring.jpa.hibernate.ddl-auto=update  
+4. Update `application.properties` if credentials are different
 
-4. Build and Run the Project
-   mvn clean install  
-   mvn spring-boot:run  
+5. Build and run the project using Maven:  
+   `mvn spring-boot:run`
 
-5. Test API Endpoints using Postman
+6. Use Postman to test API endpoints
 
-API Endpoints Overview
+API Usage Example
 
+Create a Load:
 POST /loads  
-GET /loads  
-GET /loads/{id}  
-PUT /loads/{id}  
-DELETE /loads/{id}  
-
-POST /bookings  
-GET /bookings?transporterId={id}  
-GET /bookings/{id}  
-PUT /bookings/{id}  
-DELETE /bookings/{id}  
-
-Validation and Error Handling
-
-- DTOs use annotations like @NotNull, @Size, etc.
-- @ControllerAdvice handles exceptions globally.
-
-Logging
-
-- SLF4J used for info, warning, and error logs at service layer.
-
-Contact
-
-Developed by Stprogram2021  
-Repository: https://github.com/Stprogram2021/load-booking-system  
-
-License
-
-This project is licensed under the MIT License.
+```json
+{
+  "shipperId": "S001",
+  "facility": {
+    "loadingPoint": "Delhi",
+    "unloadingPoint": "Mumbai",
+    "loadingDate": "2025-04-06T10:00:00",
+    "unloadingDate": "2025-04-07T18:00:00"
+  },
+  "productType": "Steel",
+  "truckType": "Open",
+  "noOfTrucks": 2,
+  "weight": 2000,
+  "comment": "Urgent delivery",
+  "datePosted": "2025-04-05T12:00:00"
+}
